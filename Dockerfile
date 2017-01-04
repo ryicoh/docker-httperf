@@ -20,4 +20,7 @@ RUN apk add --update --no-cache --virtual=.build-dependencies \
     autoreconf -i && \
     ./configure && \
     make && \
-    make install
+    make install && \
+    cd .. && \
+    rm -rf httperf-master /usr/src/master.zip && \
+    apk del .build-dependencies
