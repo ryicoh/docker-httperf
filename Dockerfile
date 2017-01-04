@@ -11,6 +11,7 @@ RUN apk add --update --no-cache --virtual=.build-dependencies \
             libtool \
             build-base \
             autoconf \
+            automake \
             make && \
     wget https://github.com/rtCamp/httperf/archive/master.zip && \
     unzip master.zip && \
