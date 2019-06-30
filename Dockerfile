@@ -1,28 +1,16 @@
-FROM alpine:3.10
+FROM alpine:3.10 AS builder
 
-WORKDIR /usr/src
+RUN apk add -u wget build-base autoconf automake ca-certificates \
+               tar xz unzip libtool
 
-RUN apk add --update --no-cache --virtual=.build-dependencies \
-            wget \
-            ca-certificates \
-            tar \
-            xz \
-            unzip \
-            libtool \
-            build-base \
-            autoconf \
-            automake \
-            make && \
-    wget https://github.com/rtCamp/httperf/archive/master.zip && \
+RUN wget https://github.com/rtCamp/httperf/archive/master.zip && \
     unzip master.zip && \
-    mkdir /usr/src/httperf-master/build && \
     cd httperf-master && \
     autoreconf -i && \
     ./configure && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -rf httperf-master /usr/src/master.zip && \
-    apk del .build-dependencies
+    make
 
-WORKDIR /root
+
+FROM alpine:3.10
+
+COPY --from=builder /httperf-master/src/httperf /usr/local/bin/
