@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.10
 
 WORKDIR /usr/src
 
@@ -24,3 +24,5 @@ RUN apk add --update --no-cache --virtual=.build-dependencies \
     cd .. && \
     rm -rf httperf-master /usr/src/master.zip && \
     apk del .build-dependencies
+
+WORKDIR /root
